@@ -1,0 +1,16 @@
+{
+  "name": "@ai-portfolio/tailwind-config",
+  "description": "Tailwindcss config for AI Portfolio",
+  "version": "0.0.10",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "devDependencies": {
+    "tailwindcss": "^4.3.0"
+  },
+  "dependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.19"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ai-portfolio",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "turbo": "^2.9.14",
+    "@biomejs/biome": "^2.4.15"
+  }
+}

@@ -1,0 +1,18 @@
+@import "../../../packages/tailwind-config/themes.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #FCFAF7;
+  --color-muted: #666666;
+  --color-border: #CBCCC9;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: #000000;
+}
+

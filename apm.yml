@@ -1,0 +1,22 @@
+name: ai-portfolio
+version: 1.0.0
+description: APM project for ai-portfolio
+author: Yuji Mise
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: copilot, claude, cursor, opencode, codex, gemini, windsurf, all
+targets:
+- claude
+dependencies:
+  apm:
+    - anthropics/skills/skills/frontend-design
+    - github/awesome-copilot/plugins/context-engineering
+    - vercel-labs/agent-skills/skills/composition-patterns
+    - vercel-labs/agent-skills/skills/react-best-practices
+    - vercel-labs/agent-skills/skills/react-view-transitions
+    - vercel-labs/agent-skills/skills/web-design-guidelines
+    - shadcn/ui
+    - GoogleChrome/modern-web-guidance
+  mcp: []
+includes: auto
+scripts: {}

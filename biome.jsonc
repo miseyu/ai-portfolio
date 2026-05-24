@@ -1,0 +1,81 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "formatter": {
+    "indentStyle": "space",
+    "formatWithErrors": true
+  },
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "next": "none",
+      "react": "all",
+      "test": "all",
+      "solid": "none",
+      "project": "all"
+    },
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "noSvgWithoutTitle": "error",
+        "useSemanticElements": "error"
+      },
+      "correctness": {
+        // tsconfigでallowImportingTsExtensionsを有効化する必要があるため、一旦off
+        "useImportExtensions": "off",
+        "useExhaustiveDependencies": "warn"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off" // NOTE_202508: パフォーマンスが悪いという警告が出るが、そこまで大きなデータは扱わない + スプレッド演算子はimmutableな操作のため好ましいと判断しoffにしておく
+      },
+      "style": {
+        "noNonNullAssertion": "error"
+      },
+      "suspicious": {
+        "noDuplicateProperties": "off",
+        "noExplicitAny": "warn",
+        "noGlobalIsFinite": "off",
+        "noGlobalIsNan": "off",
+        "noShadowRestrictedNames": "error"
+      }
+    }
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["**", "!**/*.generated.ts", "!graphql/**/*.ts"]
+  },
+  "javascript": { "formatter": { "quoteStyle": "double" } },
+  "css": { "parser": { "cssModules": true } },
+  "overrides": [
+    {
+      "includes": ["**/*.{js,jsx,ts,tsx}"],
+      "linter": {
+        "rules": {
+          "a11y": { "noAutofocus": "warn" },
+          "complexity": { "noUselessFragments": "warn" },
+          "suspicious": { "noArrayIndexKey": "warn", "noConsole": "off" }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "complexity": { "useOptionalChain": "warn" },
+          "correctness": { "noUnusedVariables": "error" },
+          "nursery": {
+            "noFloatingPromises": "error"
+          },
+          "style": { "noRestrictedImports": "error" }
+        }
+      }
+    }
+  ],
+  "assist": {
+    "enabled": true,
+    "actions": { "source": { "organizeImports": "on" } }
+  }
+}

@@ -1,0 +1,102 @@
+lockfile_version: '1'
+generated_at: '2026-05-24T06:39:21.938469+00:00'
+apm_version: 0.14.1
+dependencies:
+- repo_url: GoogleChrome/modern-web-guidance
+  host: github.com
+  resolved_commit: 65d7f20ac85517a362107ce89b7be7f905105fd3
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/chrome-extensions
+  - .agents/skills/modern-web-guidance
+  - .claude/skills/chrome-extensions
+  - .claude/skills/modern-web-guidance
+  content_hash: sha256:8a2303ab8e72bae6dda5464d5cfd6526f17998476d867628dba972419e322560
+- repo_url: anthropics/skills
+  host: github.com
+  resolved_commit: 690f15cac7f7b4c055c5ab109c79ed9259934081
+  virtual_path: skills/frontend-design
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/frontend-design
+  - .claude/skills/frontend-design
+  content_hash: sha256:063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67
+- repo_url: github/awesome-copilot
+  host: github.com
+  resolved_commit: 5b049e4e196c10aab8ddfd9e492323d08cf985b0
+  virtual_path: plugins/context-engineering
+  is_virtual: true
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/context-map
+  - .agents/skills/refactor-plan
+  - .agents/skills/what-context-needed
+  - .claude/agents/context-architect.md
+  - .claude/skills/context-map
+  - .claude/skills/refactor-plan
+  - .claude/skills/what-context-needed
+  - .github/agents/context-architect.agent.md
+  deployed_file_hashes:
+    .claude/agents/context-architect.md: sha256:6da7a854a670d2810fc61b173eea2500a2af644d8292f58e3d440ac2d120ee0d
+    .github/agents/context-architect.agent.md: sha256:6da7a854a670d2810fc61b173eea2500a2af644d8292f58e3d440ac2d120ee0d
+  content_hash: sha256:6d5ed9518d725ff8ff634939759a4b1069b1b89ef9a885bfedd6df569722d473
+- repo_url: shadcn/ui
+  host: github.com
+  resolved_commit: 4a4dc8eb0fc793d8e9225e780183ad605f15d2c2
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/shadcn
+  - .claude/skills/shadcn
+  content_hash: sha256:d7e3c22f1998757a3b0b8a78cfc18fa706941e631f06a7b136f3de0d5fc71a3e
+- repo_url: vercel-labs/agent-skills
+  host: github.com
+  resolved_commit: 18a24346600009dc3fcb99e4b2cd83b301601775
+  virtual_path: skills/composition-patterns
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/composition-patterns
+  - .claude/skills/composition-patterns
+  content_hash: sha256:5b3564ca435f4714d5e65023351e1999e4744818603a9cfb6a6f6a61b7d84918
+- repo_url: vercel-labs/agent-skills
+  host: github.com
+  resolved_commit: 18a24346600009dc3fcb99e4b2cd83b301601775
+  virtual_path: skills/react-best-practices
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/react-best-practices
+  - .claude/skills/react-best-practices
+  content_hash: sha256:74f142d28d360d78e8bac4f239a84c87f0ced9015729bc72b5458d82ff45b015
+- repo_url: vercel-labs/agent-skills
+  host: github.com
+  resolved_commit: 18a24346600009dc3fcb99e4b2cd83b301601775
+  virtual_path: skills/react-view-transitions
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/react-view-transitions
+  - .claude/skills/react-view-transitions
+  content_hash: sha256:51719043c8f0077181524eaa0326e3f73080afb490571b81567c0f8df254d15f
+- repo_url: vercel-labs/agent-skills
+  host: github.com
+  resolved_commit: 18a24346600009dc3fcb99e4b2cd83b301601775
+  virtual_path: skills/web-design-guidelines
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/web-design-guidelines
+  - .claude/skills/web-design-guidelines
+  content_hash: sha256:a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a
+mcp_servers:
+- shadcn
+mcp_configs:
+  shadcn:
+    name: shadcn
+    transport: stdio
+    args:
+    - shadcn@latest
+    - mcp
+    registry: false
+    command: npx
