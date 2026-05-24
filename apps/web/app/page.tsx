@@ -44,7 +44,7 @@ const careerSignals = [
   {
     label: "Projects",
     value: "20",
-    detail: "timeline.json に掲載された職務案件",
+    detail: "",
   },
   {
     label: "Recent focus",
@@ -126,14 +126,17 @@ export default function Home() {
             <h1
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(42px, 7vw, 96px)",
+                fontSize: "clamp(32px, 7vw, 84px)",
                 fontWeight: "400",
                 lineHeight: "0.92",
                 margin: 0,
                 maxWidth: "960px",
+                display: "grid",
+                gap: "16px",
               }}
             >
-              実装できる基盤設計者
+              <div>実装できる</div>
+              <div>基盤設計者</div>
             </h1>
             <p
               style={{
@@ -316,7 +319,7 @@ export default function Home() {
               margin: 0,
             }}
           >
-            最新案件から順に、担当の深さを読む
+            最新案件から順に担当の深さを読む
           </h2>
           <Link
             href="/career"
