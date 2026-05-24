@@ -2,6 +2,9 @@
 
 @miseyu のポートフォリオサイト。Next.js + pnpm モノレポで構成されています。
 
+https://ai-portfolio-alpha-seven.vercel.app/
+
+
 ## サイト概要
 
 Cloud / Data Platform / SRE を専門とするソフトウェアエンジニアの職務経歴サイトです。
