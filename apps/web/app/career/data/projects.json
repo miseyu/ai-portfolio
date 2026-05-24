@@ -1,0 +1,942 @@
+{
+  "audio-processing-infra": {
+    "period": "2025.11-",
+    "title": "音声処理・分析システム\nインフラ基盤整備",
+    "tags": [
+      "Role: Infrastructure Engineer",
+      "Cloud: AWS / Azure / GCP",
+      "IaC: Terraform",
+      "Platform: EKS Auto Mode"
+    ],
+    "description": "音声処理・分析システム向けに、AWSを中心としたマルチクラウド基盤をTerraformでコード化。EKS Auto Mode、GPUノード、Kustomize、Azure OpenAI Service、品質検査まで含む運用基盤を整備しました。",
+    "sections": [
+      {
+        "title": "技術構成",
+        "lines": [
+          "AWS / Azure OpenAI Service / Google Cloud を対象にインフラ構成をIaC化。",
+          "Amazon EKS、GPU NodeClass / NodePool、KEDA、External Secrets Operator、Metrics Serverを利用。"
+        ]
+      },
+      {
+        "title": "ネットワーク設計",
+        "lines": [
+          "3AZ構成のVPC、Public / Private / Isolated Subnet、NAT Gateway、VPC Endpointをモジュール化。",
+          "Direct Connect、BGP設定、オンプレミスCIDR、冗長構成をTerraformで管理。"
+        ]
+      },
+      {
+        "title": "Kubernetes運用",
+        "lines": [
+          "base / base-eks / 環境別overlayのKustomize構成を採用。",
+          "Namespace単位の差分管理とConfigMap / Secret / queue設定の適用フローを標準化。"
+        ]
+      },
+      {
+        "title": "品質・セキュリティ",
+        "lines": [
+          "KMSによるSecret暗号化、IAMロールベースのアクセス制御、Security Group設計を実施。",
+          "terraform fmt / validate / tflint / Trivy をGitHub Actionsと連携。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "担当範囲", "value": "マルチクラウドIaC" },
+      { "label": "実行基盤", "value": "EKS + GPU" },
+      { "label": "チーム", "value": "10名 / 構築・開発" }
+    ],
+    "contextText": "監査性、環境差分の抑制、GPUワークロード運用、Azure OpenAIガバナンスを同時に扱える標準基盤として整備しました。"
+  },
+  "security-log-analytics": {
+    "period": "2025.04-2025.11",
+    "title": "セキュリティログ\n分析基盤開発",
+    "tags": [
+      "Role: Data Platform Engineer",
+      "Cloud: AWS",
+      "Data: OCSF / Security Lake",
+      "Search: OpenSearch"
+    ],
+    "description": "OCSF形式を含む多様なセキュリティログを収集・正規化・加工し、横断分析できるデータ基盤とOpenSearchによるSIEM基盤を構築しました。",
+    "sections": [
+      {
+        "title": "ログ処理基盤",
+        "lines": [
+          "OCSF形式を含むセキュリティログのスキーマ設計、正規化、加工処理パイプラインを構築。",
+          "蓄積ログを横断分析できるデータレイクハウス / DWH相当の基盤を整備。"
+        ]
+      },
+      {
+        "title": "分析体験",
+        "lines": [
+          "Athena + GlueをDWH的に扱えるようdbtでモデル管理と変換を標準化。",
+          "分析・調査時のクエリやモデリングを前提にデータ構造を整理。"
+        ]
+      },
+      {
+        "title": "SIEM基盤",
+        "lines": [
+          "OpenSearchを構築し、検索・可視化・運用を含むSIEM基盤を整備。",
+          "Security Analyticsとして検知ルールと相関の設計を担当。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS Security Lake、Athena、DuckDB、OpenSearchを利用。",
+          "Python、dbt、Terraformで実装と構成管理を実施。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "対象ログ", "value": "OCSF含む複数形式" },
+      { "label": "分析基盤", "value": "Athena + Glue + dbt" },
+      { "label": "チーム", "value": "5名 / 構築・開発" }
+    ],
+    "contextText": "セキュリティログを収集するだけでなく、検知・調査・可視化まで継続運用できる分析基盤として設計しました。"
+  },
+  "gis-data-engine": {
+    "period": "2024.01-2025.03",
+    "title": "GISデータ解析\nエンジン開発",
+    "tags": [
+      "Role: Rust Engineer",
+      "Domain: GIS / 3D Data",
+      "Runtime: tokio / rayon",
+      "Extension: Wasm"
+    ],
+    "description": "大容量3Dデータの処理基盤をRustで実装。非同期I/OとCPU並列処理を組み合わせ、ストリーミング処理、空間インデックス、Wasmプラグイン機構を整備しました。",
+    "sections": [
+      {
+        "title": "処理基盤",
+        "lines": [
+          "tokioによる非同期処理とrayonによるCPU並列処理を組み合わせたパイプラインを実装。",
+          "I/OとCPU処理が混在する大容量3Dデータ処理を高スループットに最適化。"
+        ]
+      },
+      {
+        "title": "ストリーミング設計",
+        "lines": [
+          "処理ステージをイベントループ上で分離し、ステージ間をストリームとして接続。",
+          "逐次到着する3Dデータを継続処理できる実行モデルを構築。"
+        ]
+      },
+      {
+        "title": "性能改善",
+        "lines": [
+          "CPUバウンドなボトルネックに対し、空間インデックスを設計・実装。",
+          "検索、絞り込み、処理対象削減による高速化を実現。"
+        ]
+      },
+      {
+        "title": "拡張性",
+        "lines": [
+          "データ処理ロジックをWasmとして外部提供できるプラグイン形式を整備。",
+          "GCP Cloud BatchとCesiumを利用するGIS処理環境で開発。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "主要言語", "value": "Rust" },
+      { "label": "拡張方式", "value": "Wasmプラグイン" },
+      { "label": "チーム", "value": "10名 / エンジン開発" }
+    ],
+    "contextText": "大容量3Dデータを扱うため、処理性能とユーザー拡張性の両方をエンジンの中心に置いて実装しました。"
+  },
+  "live-streaming-platform": {
+    "period": "2023.09-2023.12",
+    "title": "ライブ配信基盤構築",
+    "tags": [
+      "Role: Server / Infra Engineer",
+      "Cloud: AWS",
+      "Language: Rust",
+      "Observability: Prometheus / Loki"
+    ],
+    "description": "Sora SFUを利用したライブ配信基盤で、認証・認可API、配信レコーダー、監視ログ基盤、TerraformによるAWSリソース管理を担当しました。",
+    "sections": [
+      {
+        "title": "認証基盤",
+        "lines": [
+          "Sora SFU接続に必要な認証・認可の仕組みを設計しAPIとして提供。",
+          "DynamoDBを利用して接続情報を管理。"
+        ]
+      },
+      {
+        "title": "録画基盤",
+        "lines": [
+          "ライブ配信内容の記録・保全を行う配信レコーダーを実装。",
+          "安定性と障害時の扱いを考慮した運用設計を実施。"
+        ]
+      },
+      {
+        "title": "性能・運用性",
+        "lines": [
+          "Rust / Actix Webで低メモリ・低CPUを意識したAPIを実装。",
+          "高負荷環境の運用コスト抑制を意識して設計。"
+        ]
+      },
+      {
+        "title": "監視・IaC",
+        "lines": [
+          "Prometheus / Lokiによるメトリクス・ログ基盤を整備。",
+          "TerraformでAWSリソースをコード化し、再現性のある運用を実現。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "実装領域", "value": "認証 + レコーダー" },
+      { "label": "DB", "value": "DynamoDB" },
+      { "label": "チーム", "value": "8名 / サーバ・インフラ" }
+    ],
+    "contextText": "ライブ配信の実行基盤として、低コスト運用、障害解析、再現性ある環境構築を重視しました。"
+  },
+  "data-trust-platform": {
+    "period": "2021.11-2023.08",
+    "title": "データトラスト基盤構築",
+    "tags": [
+      "Role: Infrastructure Engineer",
+      "Platform: Kubernetes",
+      "Data: Kafka / Postgres",
+      "IaC: Terraform"
+    ],
+    "description": "将来的な実行環境変更を見据え、Kubernetesを中心にストレージとアプリケーションを統合運用。Operatorを活用したミドルウェア管理と監視基盤を整備しました。",
+    "sections": [
+      {
+        "title": "基盤設計",
+        "lines": [
+          "クラウドからベアメタルへの移行可能性を考慮し、Kubernetes中心の構成を採用。",
+          "移行容易性と運用の一貫性を確保。"
+        ]
+      },
+      {
+        "title": "ワークロード運用",
+        "lines": [
+          "ストレージとアプリケーションをKubernetes上に集約。",
+          "デプロイ、スケール、設定管理をKubernetesエコシステム内で統一。"
+        ]
+      },
+      {
+        "title": "Operator活用",
+        "lines": [
+          "Kafka / Postgres（TimescaleDB）をKubernetes Operatorでデプロイ。",
+          "構成変更、スケール、運用手順を標準化。"
+        ]
+      },
+      {
+        "title": "可観測性",
+        "lines": [
+          "Prometheus / Lokiによるメトリクス・ログ基盤を整備。",
+          "AWS、k8s、Go、helmfile、Terraformを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "運用基盤", "value": "Kubernetes中心" },
+      { "label": "主要DB", "value": "Kafka / Postgres" },
+      { "label": "チーム", "value": "12名 / インフラ" }
+    ],
+    "contextText": "ポータビリティと運用標準化を重視し、データ基盤の中核要素をKubernetes上で一貫管理しました。"
+  },
+  "video-ad-network-sre": {
+    "period": "2020.01-2025.03",
+    "title": "動画広告アドネットワーク\nSRE業務",
+    "tags": [
+      "Role: SRE",
+      "Cloud: GCP",
+      "Platform: Kubernetes",
+      "Service Mesh: Istio"
+    ],
+    "description": "動画広告アドネットワークのKubernetes基盤で、デプロイ基盤刷新、IaC自動化、可観測性とセキュリティ強化を推進しました。",
+    "sections": [
+      {
+        "title": "SRE業務",
+        "lines": [
+          "Kubernetes基盤の運用・改善を担当。",
+          "デプロイ基盤の刷新、IaCによる運用自動化、可観測性・セキュリティ強化を推進。"
+        ]
+      },
+      {
+        "title": "デプロイ刷新",
+        "lines": [
+          "Helm中心の運用からKustomizeへ移行。",
+          "差分管理を整理し、Helm/Tiller等への依存を減らしてリリース運用を簡素化。"
+        ]
+      },
+      {
+        "title": "IaC拡大",
+        "lines": [
+          "GCPリソースに加え、KubernetesリソースやDatadog設定までTerraformで一元管理。",
+          "環境差分の抑制、変更再現性、運用自動化を向上。"
+        ]
+      },
+      {
+        "title": "Service Mesh",
+        "lines": [
+          "Istioを導入し、トレーシングとトラフィック制御を強化。",
+          "通信制御とポリシー適用を含め、運用性とセキュリティを改善。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "担当領域", "value": "Kubernetes SRE" },
+      { "label": "IaC対象", "value": "GCP / k8s / Datadog" },
+      { "label": "チーム", "value": "3名 / SRE" }
+    ],
+    "contextText": "長期運用される広告配信基盤で、変更再現性と可観測性を中心に運用リスクを減らしました。"
+  },
+  "tv-commercial-analysis": {
+    "period": "2020.01-2020.08",
+    "title": "テレビCM動画解析",
+    "tags": [
+      "Role: ML / Backend Engineer",
+      "Cloud: AWS",
+      "Runtime: ECS Fargate",
+      "Language: Python"
+    ],
+    "description": "テレビCM動画から音声・映像・テキスト特徴を抽出し、CMメタ情報生成とCM判別分類器を構築しました。",
+    "sections": [
+      {
+        "title": "解析パイプライン",
+        "lines": [
+          "音声解析、NLP、動画・画像解析の結果を統合してCMメタ情報を生成。",
+          "CM識別と分類までを実装。"
+        ]
+      },
+      {
+        "title": "音声・NLP",
+        "lines": [
+          "CM動画から音声を抽出し、文字起こしやテキスト処理を前提に自然言語処理を適用。",
+          "キーワードや特徴量をメタ情報として生成。"
+        ]
+      },
+      {
+        "title": "映像解析",
+        "lines": [
+          "OpenCV等を用いて映像特徴を抽出。",
+          "音声・テキスト特徴と合わせて蓄積・活用できる形に整備。"
+        ]
+      },
+      {
+        "title": "実行基盤",
+        "lines": [
+          "コンテナ化した解析処理をECS Fargate上で運用。",
+          "Python、Poetry、ffmpeg、opencv、numpy、ginza、word2vec、doc2vecを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "解析対象", "value": "音声 / 映像 / テキスト" },
+      { "label": "実行基盤", "value": "ECS Fargate" },
+      { "label": "チーム", "value": "3名 / 開発者" }
+    ],
+    "contextText": "複数モーダルの特徴量を組み合わせ、CMを自動識別するための解析基盤として実装しました。"
+  },
+  "blockchain-power-trading": {
+    "period": "2019.08-2019.12",
+    "title": "ブロックチェーンを用いた\n電力取引システム",
+    "tags": [
+      "Role: Full Stack Engineer",
+      "Blockchain: Ethereum",
+      "Language: TypeScript / Solidity",
+      "Cloud: AWS"
+    ],
+    "description": "ERC20トークンと電力取引スマートコントラクトを実装し、NestJS/Vue.jsによるWebアプリとAWS上の永続化基盤まで一人で開発しました。",
+    "sections": [
+      {
+        "title": "スマートコントラクト",
+        "lines": [
+          "ERC20トークンと電力取引の業務ロジックをSolidityで設計・実装。",
+          "権限と取引フローを含めたスマートコントラクトを構築。"
+        ]
+      },
+      {
+        "title": "開発基盤",
+        "lines": [
+          "OpenZeppelinを活用して安全な実装パターンを適用。",
+          "Truffle / Ganacheでローカル検証とデプロイフローを整備。"
+        ]
+      },
+      {
+        "title": "フルスタック開発",
+        "lines": [
+          "NestJSによるサーバサイド、Vue.jsによるフロントエンドをTypeScriptで実装。",
+          "スマートコントラクトからWebアプリまで一貫して担当。"
+        ]
+      },
+      {
+        "title": "AWS基盤",
+        "lines": [
+          "DynamoDBとAurora Serverlessを利用してデータ永続化を構築。",
+          "AWS上でアプリケーション基盤を整備。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "担当範囲", "value": "一人開発" },
+      { "label": "チェーン", "value": "Ethereum" },
+      { "label": "DB", "value": "DynamoDB / Aurora" }
+    ],
+    "contextText": "ブロックチェーン、API、フロントエンド、AWS基盤を横断し、プロトタイプではなく取引フローを持つアプリケーションとして構築しました。"
+  },
+  "autonomous-robot-system": {
+    "period": "2019.01-2019.07",
+    "title": "自律移動ロボットシステム",
+    "tags": [
+      "Role: Backend Engineer",
+      "Language: Go",
+      "Protocol: gRPC",
+      "Cloud: AWS"
+    ],
+    "description": "ロボットの移動・運行制御に関わるエレベータ連携機能を、Go + gRPCを中心としたマイクロサービスとして設計・実装しました。",
+    "sections": [
+      {
+        "title": "サービス設計",
+        "lines": [
+          "エレベータ連動サービスをマイクロサービス構成で設計・開発。",
+          "既存機能への影響を抑え、新規機能追加や変更を行いやすい構成に分割。"
+        ]
+      },
+      {
+        "title": "gRPC標準化",
+        "lines": [
+          "protoを契約としてAPIを設計。",
+          "サーバ・クライアントのコード生成を活用し、実装の一貫性を高めた。"
+        ]
+      },
+      {
+        "title": "通信・トレーシング",
+        "lines": [
+          "EnvoyとAWS X-Rayのサイドカーを各コンテナに組み込み。",
+          "分散トレーシングとトラフィック制御を強化。"
+        ]
+      },
+      {
+        "title": "IaC",
+        "lines": [
+          "AWS上の実行基盤をTerraformでコード化。",
+          "DynamoDB、gqlgen、Goを利用したサービス基盤を構築。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "API方式", "value": "Go + gRPC" },
+      { "label": "可観測性", "value": "AWS X-Ray" },
+      { "label": "チーム", "value": "5名 / 開発者" }
+    ],
+    "contextText": "ロボット運行制御に関わる変更をマイクロサービスとして切り出し、契約と可観測性を重視して実装しました。"
+  },
+  "ai-self-checkout": {
+    "period": "2018.08-2018.12",
+    "title": "AIセルフレジ\nシステム開発",
+    "tags": [
+      "Role: Backend Engineer",
+      "API: GraphQL",
+      "Cloud: AWS ECS Fargate",
+      "Language: Python"
+    ],
+    "description": "セルフレジの通常UIと音声UIから利用される注文管理APIをGraphQLで設計・実装し、AWS ECS Fargateで動作する基盤を構築しました。",
+    "sections": [
+      {
+        "title": "API開発",
+        "lines": [
+          "注文管理機能をGraphQL APIとして設計・実装。",
+          "通常画面とVUI（音声UI）の複数クライアント利用を想定。"
+        ]
+      },
+      {
+        "title": "GraphQL設計",
+        "lines": [
+          "GraphQLスキーマを契約として扱い、拡張しやすいAPI設計を実現。",
+          "複数チャネルからの要求に対応できる構成を整備。"
+        ]
+      },
+      {
+        "title": "ドキュメント運用",
+        "lines": [
+          "SchemaをAPI仕様の一次情報として運用。",
+          "ドキュメント整備と保守コストの低減を狙った。"
+        ]
+      },
+      {
+        "title": "実行環境",
+        "lines": [
+          "AWS ECS Fargate上でPython / graphene / gunicornを利用。",
+          "Postgres、Terraformを組み合わせて構築。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "API", "value": "GraphQL" },
+      { "label": "実行基盤", "value": "ECS Fargate" },
+      { "label": "チーム", "value": "5名 / 開発者" }
+    ],
+    "contextText": "UIと音声UIの両方から扱いやすい注文管理APIとして、スキーマ駆動で保守しやすい構成にしました。"
+  },
+  "ad-operations-data-platform": {
+    "period": "2017.04-2018.07",
+    "title": "広告運用向け\nデータプラットフォーム構築",
+    "tags": [
+      "Role: Development Lead",
+      "Cloud: AWS",
+      "Data: Data Lake / ETL",
+      "Language: Python / Go"
+    ],
+    "description": "広告運用向けに、データ収集基盤からバッチ/ETL、分析基盤までをAWS上で設計・構築。開発責任者として推進しました。",
+    "sections": [
+      {
+        "title": "データ基盤",
+        "lines": [
+          "データレイクアーキテクチャを採用。",
+          "データ収集、バッチ/ETL、分析基盤までAWS上で設計・実装。"
+        ]
+      },
+      {
+        "title": "サーバレス設計",
+        "lines": [
+          "サーバサイドをサーバレスアーキテクチャ中心で構成。",
+          "運用工数とランニングコストの抑制を図った。"
+        ]
+      },
+      {
+        "title": "分析開発フロー",
+        "lines": [
+          "データサイエンティストとの協業を前提に、分析/ETLの実装をPython中心に標準化。",
+          "コード共有、レビュー、再現性を高めるフローを整備。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "Apache Spark、Digdag、AWS Glue、Athena、Embulk、Flask、Vue.jsを利用。",
+          "Postgres、nginx、gunicornを含むWeb/API基盤も担当。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "担当", "value": "開発責任者" },
+      { "label": "領域", "value": "収集 / ETL / 分析" },
+      { "label": "チーム", "value": "5名" }
+    ],
+    "contextText": "広告運用データを継続的に取り込み、分析・ETL要件の変化に追従できるデータレイク基盤として構築しました。"
+  },
+  "broadcast-dmp-platform": {
+    "period": "2015.08-2017.03",
+    "title": "TV放送局向け\nデータ分析基盤・DMP構築",
+    "tags": [
+      "Role: Technical / Business Lead",
+      "Cloud: GCP",
+      "Data: Spark / BigQuery",
+      "Platform: Kubernetes / Docker"
+    ],
+    "description": "HAROiD DMPとTV放送局向けデータ分析基盤について、技術選定、アーキテクチャ設計、プロダクト仕様、事業面まで担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "HAROiD DMPおよびデータ分析基盤の全体を担当。",
+          "技術責任者として技術選定、アーキテクチャ設計、基盤構築に関与。"
+        ]
+      },
+      {
+        "title": "事業・仕様",
+        "lines": [
+          "事業責任者としてビジネスモデル構築、プロダクト仕様決め、設計に関与。",
+          "技術と事業の両面からプロダクトを推進。"
+        ]
+      },
+      {
+        "title": "データ分析基盤",
+        "lines": [
+          "Apache SparkやLuigiを使用した大規模データ分析基盤を構築。",
+          "TV番組分析を通じたデータ推計モデルの構築ノウハウを獲得。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "GCP、BigQuery、Redis、Pub/Sub、MySQLを利用。",
+          "Rails5、Grape、AngularJS2、Pythonデータ分析エコシステムを活用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "役割", "value": "技術責任者 / 事業責任者" },
+      { "label": "分析基盤", "value": "Spark / Luigi / BigQuery" },
+      { "label": "チーム", "value": "3名" }
+    ],
+    "contextText": "技術選定から事業設計までを横断し、TVデータを活用するDMPと分析基盤を立ち上げました。"
+  },
+  "wizpra-platform": {
+    "period": "2013.04-2015.07",
+    "title": "wizpraプラットフォーム\n開発・保守",
+    "tags": [
+      "Role: CTO",
+      "Cloud: AWS",
+      "Backend: Rails / Grape",
+      "Frontend: AngularJS"
+    ],
+    "description": "CTOとして、wizpraプラットフォームの企画、設計、開発、運用を統括。API、クライアント、インフラ、自動化まで少人数で主導しました。",
+    "sections": [
+      {
+        "title": "統括領域",
+        "lines": [
+          "プラットフォームの企画から設計、開発、運用までを統括。",
+          "API/バックエンド、クライアント、インフラ構築、自動化、運用を主導。"
+        ]
+      },
+      {
+        "title": "API設計",
+        "lines": [
+          "ビジネスロジックをAPIに集約。",
+          "複数クライアントや外部ツールの実装工数を削減し、仕様差分を抑制。"
+        ]
+      },
+      {
+        "title": "CI/CD・自動化",
+        "lines": [
+          "Jenkins + Ansibleで環境構築とデプロイを自動化。",
+          "リリースの再現性向上と運用負荷の軽減を実現。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS、Rails4、Grape、AngularJS、nginx、unicornを利用。",
+          "MySQL、Redis、Memcachedを含む運用基盤を担当。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "役割", "value": "CTO" },
+      { "label": "領域", "value": "企画から運用まで" },
+      { "label": "チーム", "value": "3名" }
+    ],
+    "contextText": "少人数のスタートアップで、プロダクトと技術基盤の両方を継続的に成長させる役割を担いました。"
+  },
+  "dsp-platform": {
+    "period": "2013.01-2013.12",
+    "title": "DSPプラットフォーム\n開発・保守",
+    "tags": [
+      "Role: Backend / UI Engineer",
+      "Domain: AdTech",
+      "Backend: Perl / Amon2",
+      "Frontend: CoffeeScript / Sass"
+    ],
+    "description": "広告配信システムのAPI入稿システムと管理画面UIを担当。ロジックをAPIに集約し、管理画面の生産性向上も進めました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "API入稿システムの設計・実装を担当。",
+          "入稿用管理画面UIの実装も担当。"
+        ]
+      },
+      {
+        "title": "API集約",
+        "lines": [
+          "入稿処理をAPI経由に集約し、ロジックを一箇所にまとめた。",
+          "入稿システム全般を横断的に担当。"
+        ]
+      },
+      {
+        "title": "UI開発",
+        "lines": [
+          "CoffeescriptとSassを導入して管理画面を構築。",
+          "UI実装の生産性向上につなげた。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS、Perl、JavaScript、Amon2、nginx、Starmanを利用。",
+          "MySQL、TokyoTyrant、Memcachedを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "領域", "value": "API入稿 / 管理UI" },
+      { "label": "基盤", "value": "AWS" },
+      { "label": "チーム", "value": "10名 / メンバー" }
+    ],
+    "contextText": "広告入稿の中核ロジックをAPIに集約し、運用とUI開発の両面で扱いやすい形に整理しました。"
+  },
+  "social-card-battle-game": {
+    "period": "2012.07-2012.12",
+    "title": "ソーシャルカードバトル\nゲーム開発",
+    "tags": [
+      "Role: Leader",
+      "Cloud: AWS",
+      "Backend: Java / Ruby",
+      "Data: EMR / Fluentd"
+    ],
+    "description": "iOS向けソーシャルカードバトルゲームで、インフラ、サーバサイド、集計基盤、ランキングサーバー、DBチューニングを担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "インフラ設計・構築、フレームワーク設計、サーバサイド設計・実装を担当。",
+          "共通ランキングサーバーとDBチューニングも担当。"
+        ]
+      },
+      {
+        "title": "集計基盤",
+        "lines": [
+          "Amazon EMR、Fluentd、S3、MongoDBを利用した集計フレームを設計・実装。",
+          "JenkinsとEMRを利用して集計できる仕組みを構築。"
+        ]
+      },
+      {
+        "title": "DynamoDB運用",
+        "lines": [
+          "DynamoDBのスループット設定やshardingを自動化し運用コストを削減。",
+          "s2DynamoDBというO/R Mapperを自作し、実装者にDynamoDBを意識させない設計にした。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS、Java、Ruby、Groovy、Objective-Cを利用。",
+          "Seasarファミリー、Rails3、nginx、tomcat、unicorn、MySQL、Redisを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "役割", "value": "リーダー" },
+      { "label": "基盤", "value": "AWS / EMR / DynamoDB" },
+      { "label": "チーム", "value": "10名" }
+    ],
+    "contextText": "ゲーム運用に必要な配信・集計・ランキング・DB運用を横断し、AWSを活用した運用基盤を構築しました。"
+  },
+  "social-puzzle-game": {
+    "period": "2012.03-2012.06",
+    "title": "ソーシャルパズル\nゲーム開発",
+    "tags": [
+      "Role: Leader",
+      "Cloud: AWS",
+      "Language: Scala",
+      "Framework: Play"
+    ],
+    "description": "iOS向けソーシャルパズルゲームで、AWSインフラ、フレームワーク選定・設計、サーバサイド設計・実装を担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "インフラ設計・構築、フレームワーク選定、サーバサイド設計・実装を担当。",
+          "AWS上でゲーム向けバックエンド基盤を構築。"
+        ]
+      },
+      {
+        "title": "言語選定",
+        "lines": [
+          "生産性と快適なプログラミングを重視してScalaを採用。",
+          "型推論やパターンマッチを活用した開発方針をとった。"
+        ]
+      },
+      {
+        "title": "設計方針",
+        "lines": [
+          "オブジェクトをイミュータブルに保つ方針を徹底。",
+          "バグを減らし、保守しやすいプログラムにすることを狙った。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS、Scala、Objective-C、Play Framework、nginxを利用。",
+          "MySQL、MongoDB、Memcachedを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "役割", "value": "リーダー" },
+      { "label": "主要言語", "value": "Scala" },
+      { "label": "チーム", "value": "3名" }
+    ],
+    "contextText": "ゲームバックエンドにScalaを採用し、型と不変性を活かして保守しやすい実装を目指しました。"
+  },
+  "social-town-game": {
+    "period": "2011.06-2012.02",
+    "title": "ソーシャル街づくり\nゲーム開発",
+    "tags": [
+      "Role: Sub Leader",
+      "Cloud: AWS",
+      "Backend: Java",
+      "Client: ActionScript"
+    ],
+    "description": "Facebook向けソーシャル街づくりゲームで、サーバサイド、Flash、フレームワーク選定、アプリケーションサーバーとDBのチューニングを担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "サーバサイド設計・実装、Flash実装、フレームワーク選定を担当。",
+          "アプリケーションサーバーとDBチューニングも担当。"
+        ]
+      },
+      {
+        "title": "AWS導入",
+        "lines": [
+          "初めてのAWS上での開発として、インフラ設計と運用を試行錯誤しながら推進。",
+          "AWS運用のノウハウを蓄積。"
+        ]
+      },
+      {
+        "title": "KVS運用",
+        "lines": [
+          "MongoDBを実運用で利用。",
+          "KVS運用の知見と難しさを実プロジェクトで経験。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "AWS、Java、ActionScript、Spring、nginx、Tomcatを利用。",
+          "MySQL、MongoDB、Memcachedを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "役割", "value": "サブリーダー" },
+      { "label": "対象", "value": "Facebookアプリ" },
+      { "label": "チーム", "value": "7名" }
+    ],
+    "contextText": "AWSとMongoDBを実運用に取り入れ、ソーシャルゲーム特有の負荷と運用課題に向き合いました。"
+  },
+  "photo-booth-image-service": {
+    "period": "2009.04-2011.05",
+    "title": "プリクラ連動\n画像サービス",
+    "tags": [
+      "Role: Server Engineer",
+      "Platform: Feature Phone",
+      "Scale: 500万会員",
+      "Storage: MogileFS"
+    ],
+    "description": "フィーチャーフォン向けプリクラ連動画像サービスで、インフラ、サーバサイド、アプリケーションサーバー、DBチューニングを担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "インフラ設計・構築、サーバサイド設計・実装を担当。",
+          "アプリケーションサーバーとDBチューニングも担当。"
+        ]
+      },
+      {
+        "title": "スケール対応",
+        "lines": [
+          "500万人の会員規模を考慮したサーバー・DBチューニングを実施。",
+          "新規プリクラ筐体発売に合わせて機能追加を継続。"
+        ]
+      },
+      {
+        "title": "画像保存",
+        "lines": [
+          "画像保存の負荷分散を目的にMogileFSを導入。",
+          "大量画像を扱うサービスの保存基盤を改善。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "Linux、Java、Ruby、Groovy、Seasarファミリー、Rails2を利用。",
+          "Tomcat、Passenger、Oracle、MySQLを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "規模", "value": "500万会員" },
+      { "label": "担当", "value": "サーバ / インフラ" },
+      { "label": "チーム", "value": "4名 / メンバー" }
+    ],
+    "contextText": "大規模会員サービスとして、画像保存、DB、アプリケーションサーバーの負荷を意識した改善を継続しました。"
+  },
+  "android-mailer-app": {
+    "period": "2011.01-2011.05",
+    "title": "Androidアプリ開発\n（メーラー）",
+    "tags": [
+      "Role: Mobile / Server Engineer",
+      "Platform: Android",
+      "Backend: Java / Ruby",
+      "Billing: au"
+    ],
+    "description": "Androidメーラーアプリで、au課金連携、Androidアプリ、サーバサイド、アプリケーションサーバーとDBチューニングを担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "インフラ構築、Androidアプリ設計・実装、サーバサイド設計・実装を担当。",
+          "アプリケーションサーバーとDBチューニングも実施。"
+        ]
+      },
+      {
+        "title": "課金連携",
+        "lines": [
+          "auの課金まわりからサーバサイド設計・実装まで一貫して担当。",
+          "新しいAndroid向け課金決済システムを試行錯誤しながら導入。"
+        ]
+      },
+      {
+        "title": "Android開発",
+        "lines": [
+          "Androidアプリ開発を担当し、設計から実装まで実施。",
+          "モバイルアプリ開発のノウハウを蓄積。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "Linux、Android、Java、Ruby、Groovyを利用。",
+          "Seasarファミリー、Rails2、Tomcat、Passenger、Oracleを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "対象", "value": "Androidメーラー" },
+      { "label": "連携", "value": "au課金" },
+      { "label": "チーム", "value": "3名 / メンバー" }
+    ],
+    "contextText": "Androidアプリ、課金、サーバサイドを一貫して担当し、モバイルサービス運用の幅広い領域を経験しました。"
+  },
+  "social-otome-game": {
+    "period": "2010.06-2010.09",
+    "title": "ソーシャル乙女ゲーム開発",
+    "tags": [
+      "Role: Server Engineer",
+      "Platform: Feature Phone / GREE",
+      "Backend: Java / Ruby",
+      "DB: Oracle"
+    ],
+    "description": "GREE向けフィーチャーフォン用ソーシャル乙女ゲームで、インフラ、サーバサイド、アプリケーションサーバー、DBチューニングを担当しました。",
+    "sections": [
+      {
+        "title": "担当領域",
+        "lines": [
+          "インフラ構築、サーバサイド設計・実装を担当。",
+          "アプリケーションサーバーとDBチューニングも担当。"
+        ]
+      },
+      {
+        "title": "ソーシャルゲーム開発",
+        "lines": [
+          "GREE向けソーシャルゲームとして開発。",
+          "サーバサイド全般を担当。"
+        ]
+      },
+      {
+        "title": "運用課題",
+        "lines": [
+          "初めてのソーシャルゲーム開発として、GREE OpenSocial仕様に対応。",
+          "ソーシャルゲーム特有の負荷に向き合った。"
+        ]
+      },
+      {
+        "title": "技術スタック",
+        "lines": [
+          "Linux、Java、Ruby、Groovy、Seasarファミリー、Rails2を利用。",
+          "Tomcat、Passenger、Oracleを利用。"
+        ]
+      }
+    ],
+    "metrics": [
+      { "label": "対象", "value": "GREE向けゲーム" },
+      { "label": "担当", "value": "サーバサイド全般" },
+      { "label": "チーム", "value": "3名 / メンバー" }
+    ],
+    "contextText": "フィーチャーフォン向けソーシャルゲームのサーバサイドを担当し、プラットフォーム仕様と高負荷に対応しました。"
+  }
+}

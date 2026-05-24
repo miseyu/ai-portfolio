@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTimelineItems } from "./data/index";
 
 const badges = [
   "キャリア年数  7+ years",
@@ -6,42 +7,8 @@ const badges = [
   "注力領域  Cloud / Data / Security",
 ];
 
-const timelineItems = [
-  {
-    period: "2025.04 - 現在",
-    title: "グローバル決済基盤リニューアル",
-    role: "テックリード / バックエンドアーキテクト",
-    description:
-      "マイクロサービス再設計、決済フローの冪等化、PCI DSS準拠の監査ログ基盤を主導。障害分析のためのトレーシングを導入し、決済失敗率を継続的に改善。",
-    tags: ["Go", "gRPC", "PostgreSQL", "Kafka", "OpenTelemetry", "Terraform", "AWS"],
-  },
-  {
-    period: "2023.10 - 2025.03",
-    title: "SaaS分析ダッシュボード再構築",
-    role: "フロントエンドリード",
-    description:
-      "旧SPAの段階的移行計画を策定し、デザインシステム統合とパフォーマンス改善を実施。主要画面の初期表示時間を短縮し、分析導線を再設計。",
-    tags: ["TypeScript", "React", "Next.js", "TanStack Query", "Storybook", "Playwright", "Vercel"],
-  },
-  {
-    period: "2022.01 - 2023.09",
-    title: "製造業向け需要予測PoC→本番化",
-    role: "データ基盤エンジニア",
-    description:
-      "データ収集パイプラインと特徴量管理を構築し、PoCモデルの本番運用化を担当。予測精度監視の運用設計とアラート基準を整備。",
-    tags: ["Python", "dbt", "BigQuery", "Airflow", "Vertex AI", "Looker", "GitHub Actions"],
-  },
-  {
-    period: "2020.07 - 2021.12",
-    title: "大規模ECの注文管理刷新",
-    role: "アプリケーションエンジニア",
-    description:
-      "モノリスからドメイン単位で段階移行し、注文・在庫連携の整合性を改善。運用部門と連携し、夜間バッチ依存を削減。",
-    tags: ["Java", "Spring Boot", "MySQL", "Redis", "Docker", "Kubernetes"],
-  },
-];
-
 export default function CareerPage() {
+  const timelineItems = getTimelineItems();
   return (
     <main style={{ backgroundColor: "var(--color-bg)" }}>
       {/* Detail Header */}
@@ -96,23 +63,8 @@ export default function CareerPage() {
             margin: 0,
           }}
         >
-          職務経歴を時系列で確認する
+          職務経歴
         </h1>
-
-        {/* Description */}
-        <p
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "18px",
-            fontWeight: "400",
-            color: "var(--color-muted)",
-            lineHeight: "1.45",
-            maxWidth: "860px",
-            margin: 0,
-          }}
-        >
-          案件の背景、担った責任、技術判断、成果を一連の流れで把握できるように再構成。面談前の事前確認に適した詳細ページです。
-        </p>
 
         {/* Badges */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "14px" }}>
@@ -144,7 +96,7 @@ export default function CareerPage() {
       <section
         style={{
           padding: "40px 64px",
-          backgroundColor: "var(--color-bg)",
+          backgroundColor: "#FFFFFF",
         }}
       >
         {/* Timeline header */}
@@ -167,18 +119,6 @@ export default function CareerPage() {
           >
             Detailed Timeline
           </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "16px",
-              fontWeight: "400",
-              color: "var(--color-muted)",
-              lineHeight: "1.6",
-              margin: 0,
-            }}
-          >
-            年次・案件・役割・技術スタックを時系列で整理した職務経歴
-          </p>
         </div>
 
         {/* Divider */}
@@ -247,17 +187,36 @@ export default function CareerPage() {
                   }}
                 >
                   {/* Title */}
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "22px",
-                      fontWeight: "700",
-                      color: "#000000",
-                      margin: 0,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                  {item.slug ? (
+                    <Link
+                      href={`/career/${item.slug}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <h3
+                        style={{
+                          fontFamily: "var(--font-body)",
+                          fontSize: "22px",
+                          fontWeight: "700",
+                          color: "#000000",
+                          margin: 0,
+                        }}
+                      >
+                        {item.title}
+                      </h3>
+                    </Link>
+                  ) : (
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: "22px",
+                        fontWeight: "700",
+                        color: "#000000",
+                        margin: 0,
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+                  )}
 
                   {/* Role */}
                   <div
@@ -303,6 +262,22 @@ export default function CareerPage() {
                     {item.description}
                   </p>
 
+                  {item.slug && (
+                    <Link
+                      href={`/career/${item.slug}`}
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "12px",
+                        fontWeight: "400",
+                        color: "#000000",
+                        textDecoration: "none",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      詳細を見る →
+                    </Link>
+                  )}
+
                   {/* Tech tags */}
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                     {item.tags.map((tag) => (
@@ -346,23 +321,6 @@ export default function CareerPage() {
           ))}
         </div>
       </section>
-
-      {/* Back link */}
-      <div style={{ padding: "32px 64px 56px 64px" }}>
-        <Link
-          href="/"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            fontWeight: "400",
-            color: "var(--color-muted)",
-            letterSpacing: "1.2px",
-            textDecoration: "none",
-          }}
-        >
-          ← サマリーページへ戻る
-        </Link>
-      </div>
     </main>
   );
 }

@@ -1,712 +1,462 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import {
+  getProjectBySlug,
+  getTimelineItems,
+  type ProjectDetail,
+  type TimelineItem,
+} from "./career/data/index";
 
-const techTags = [
-  "AWS / Azure OpenAI / GCP",
-  "Kubernetes / Terraform / Kustomize",
-  "Rust / Python / dbt",
-  "SRE / Security Analytics",
-];
+const focusSlugs = [
+  "audio-processing-infra",
+  "security-log-analytics",
+  "gis-data-engine",
+  "video-ad-network-sre",
+] as const;
 
-const achievements = [
+const capabilityCards = [
   {
-    number: "01",
-    headline: "可用性 99.95% を達成",
+    label: "Platform",
+    title: "クラウド基盤をコードで設計する",
     description:
-      "モノリス段階的分割と監視基盤刷新で、重大障害件数を前年比 62% 削減。",
+      "AWS / GCP / Azure OpenAI Service をまたぐ構成、Kubernetes、Terraform、Kustomizeを使い、再現性のある実行基盤に落とし込みます。",
   },
   {
-    number: "02",
-    headline: "デリバリー速度を 2.3 倍改善",
+    label: "Data",
+    title: "分析できる形までデータを運ぶ",
     description:
-      "CI/CD ボトルネックを解消し、リリース頻度を週1回から日次へ移行。",
+      "Security Lake、Athena、Glue、dbt、OpenSearchなどを組み合わせ、収集・正規化・検索・調査まで続くデータ基盤を整えます。",
   },
   {
-    number: "03",
-    headline: "採用と育成を同時強化",
+    label: "Engine",
+    title: "重い処理を実装で前に進める",
     description:
-      "評価基準とオンボーディングを再設計し、立ち上がり期間を 45% 短縮。",
-  },
-];
-
-const representativeProjects = [
-  {
-    period: "2024.01 - 2025.03",
-    title: "プラットフォーム再設計",
-    description:
-      "認証・課金・権限を共通化する基盤を構築。12プロダクトの重複実装を解消し、開発工数を四半期あたり約1,100時間削減。",
-  },
-  {
-    period: "2023.04 - 2023.12",
-    title: "データ移行自動化",
-    description:
-      "旧基盤から新基盤への段階移行を自動化。検証パイプラインにより移行時の障害問い合わせを 70% 抑制。",
-  },
-  {
-    period: "2022.07 - 2023.03",
-    title: "コスト最適化プログラム",
-    description:
-      "ワークロード特性に合わせたリソース戦略へ変更。インフラコストを年間 2,400万円圧縮しつつ性能指標を維持。",
+      "Rust、Go、Pythonを使い分け、大容量3Dデータ処理、配信API、解析パイプラインなど性能と運用を両立する実装を担います。",
   },
 ];
 
-const statsCards = [
-  { label: "案件数", value: "20+" },
-  { label: "主軸領域", value: "Cloud / Data / Security" },
-  { label: "最近の役割", value: "Tech Lead / Platform" },
+const careerSignals = [
+  {
+    label: "Career",
+    value: "2010-",
+    detail: "Web / Game / AdTech / Data / Cloud",
+  },
+  {
+    label: "Projects",
+    value: "20",
+    detail: "timeline.json に掲載された職務案件",
+  },
+  {
+    label: "Recent focus",
+    value: "Cloud + Data",
+    detail: "Security / GIS / AI infra / SRE",
+  },
 ];
 
-const projectRows = [
-  {
-    period: "2025.11-",
-    title: "音声処理・分析システム インフラ基盤整備",
-    description:
-      "TerraformでAWS/マルチクラウド基盤を標準化し、EKS/GPU運用設計まで担当",
-  },
-  {
-    period: "2025.04-2025.11",
-    title: "セキュリティログ分析基盤開発",
-    description:
-      "OCSFログ正規化からOpenSearch/Analytics基盤の設計構築を主導",
-  },
-  {
-    period: "2024.01-2025.03",
-    title: "GISデータ解析エンジン開発",
-    description:
-      "Rustで大容量3D処理を高スループット化、空間インデックスとWasm拡張を実装",
-  },
+const themeTags = [
+  "AWS",
+  "Google Cloud",
+  "Azure OpenAI Service",
+  "Kubernetes",
+  "Terraform",
+  "Rust",
+  "Go",
+  "Python",
+  "dbt",
+  "OpenSearch",
 ];
+
+const sectionStyle: CSSProperties = {
+  padding: "56px clamp(20px, 5vw, 64px)",
+};
+
+const eyebrowStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "13px",
+  color: "var(--color-muted)",
+  letterSpacing: "1.4px",
+};
+
+const mutedTextStyle: CSSProperties = {
+  color: "var(--color-muted)",
+  lineHeight: "1.7",
+  margin: 0,
+};
+
+function getFocusProjects(): Array<ProjectDetail & { slug: string }> {
+  return focusSlugs.flatMap((slug) => {
+    const project = getProjectBySlug(slug);
+    return project ? [{ ...project, slug }] : [];
+  });
+}
 
 export default function Home() {
+  const timelineItems = getTimelineItems();
+  const focusProjects = getFocusProjects();
+  const latestProjects = timelineItems.slice(0, 5);
+
   return (
-    <main style={{ backgroundColor: "var(--color-bg)" }}>
-      {/* Hero Section */}
+    <main style={{ backgroundColor: "var(--color-bg)", color: "#000000" }}>
       <section
         style={{
-          padding: "56px 64px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "24px",
-          backgroundColor: "var(--color-bg)",
+          ...sectionStyle,
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+          gap: "clamp(32px, 6vw, 80px)",
+          alignItems: "end",
         }}
       >
-        {/* Top bar */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span
+        <div style={{ display: "flex", flexDirection: "column", gap: "26px" }}>
+          <div
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--color-muted)",
-              letterSpacing: "1.4px",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "16px",
+              flexWrap: "wrap",
             }}
           >
-            PROFILE RENEWAL CONCEPT
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              color: "var(--color-muted)",
-            }}
-          >
-            Updated: 2026-05-24
-          </span>
-        </div>
+            <span style={eyebrowStyle}>YUJI MISE / SOFTWARE ENGINEER</span>
+            <span style={eyebrowStyle}>Cloud, Data Platform, SRE</span>
+          </div>
 
-        {/* Headline block */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(64px, 9.2vw, 132px)",
-              fontWeight: "400",
-              lineHeight: "0.88",
-              color: "#000000",
-              margin: 0,
-            }}
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "18px" }}
           >
-            クラウド基盤と
-            <br />
-            データ処理を
-            <br />
-            設計する。
-          </h1>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "24px",
-              fontWeight: "500",
-              color: "#000000",
-              margin: 0,
-            }}
-          >
-            三瀬 裕二 / Software Engineer
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "18px",
-              fontWeight: "400",
-              color: "var(--color-muted)",
-              lineHeight: "1.45",
-              maxWidth: "760px",
-              margin: 0,
-            }}
-          >
-            採用担当が最初の60秒で把握すべき情報を先頭に再配置。
-            <br />
-            専門領域・実績規模・代表案件を一画面で理解できる構成へ刷新。
-          </p>
-        </div>
-
-        {/* Tech tags */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-          {techTags.map((tag) => (
-            <div
-              key={tag}
+            <h1
               style={{
-                backgroundColor: "#000000",
-                padding: "8px 14px",
-                display: "inline-block",
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(42px, 7vw, 96px)",
+                fontWeight: "400",
+                lineHeight: "0.92",
+                margin: 0,
+                maxWidth: "960px",
               }}
             >
+              実装できる基盤設計者
+            </h1>
+            <p
+              style={{
+                fontSize: "clamp(17px, 2vw, 22px)",
+                fontWeight: "600",
+                lineHeight: "1.65",
+                maxWidth: "860px",
+                margin: 0,
+              }}
+            >
+              マルチクラウドのインフラ、Kubernetes運用、データ分析基盤、Rustによる高負荷処理を、設計だけで終わらせず運用可能な形まで作ります。
+            </p>
+            <p
+              style={{ ...mutedTextStyle, maxWidth: "760px", fontSize: "16px" }}
+            >
+              直近は音声処理・分析システムのEKS/GPU基盤、セキュリティログ分析基盤、GIS向け3Dデータ解析エンジンを担当。過去にはSRE、DMP、広告・ゲーム・モバイル領域まで横断しています。
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+            {themeTags.map((tag) => (
               <span
+                key={tag}
                 style={{
+                  backgroundColor: "#000000",
+                  color: "#FFFFFF",
                   fontFamily: "var(--font-mono)",
                   fontSize: "12px",
-                  fontWeight: "400",
-                  color: "#FFFFFF",
+                  padding: "8px 12px",
                 }}
               >
                 {tag}
               </span>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "14px" }}>
+            <Link
+              href="/career"
+              style={{
+                backgroundColor: "#000000",
+                color: "#FFFFFF",
+                fontWeight: "700",
+                padding: "13px 18px",
+                textDecoration: "none",
+              }}
+            >
+              職務経歴を見る
+            </Link>
+            <Link
+              href="/career"
+              style={{
+                border: "1px solid #000000",
+                color: "#000000",
+                fontWeight: "700",
+                padding: "12px 17px",
+                textDecoration: "none",
+              }}
+            >
+              代表案件へ
+            </Link>
+          </div>
+        </div>
+
+        <div
+          style={{
+            backgroundColor: "#FFFFFF",
+            border: "1px solid var(--color-border)",
+            padding: "22px",
+            display: "grid",
+            gap: "18px",
+          }}
+        >
+          {careerSignals.map((signal) => (
+            <div key={signal.label} style={{ display: "grid", gap: "6px" }}>
+              <span style={eyebrowStyle}>{signal.label}</span>
+              <strong style={{ fontSize: "30px", lineHeight: "1" }}>
+                {signal.value}
+              </strong>
+              <span style={{ ...mutedTextStyle, fontSize: "13px" }}>
+                {signal.detail}
+              </span>
             </div>
           ))}
         </div>
-
-        {/* CTAs */}
-        <div style={{ display: "flex", gap: "16px" }}>
-          <button
-            type="button"
-            style={{
-              backgroundColor: "#000000",
-              padding: "12px 18px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#FFFFFF",
-              }}
-            >
-              PDFをダウンロード
-            </span>
-          </button>
-          <button
-            type="button"
-            style={{
-              backgroundColor: "transparent",
-              padding: "12px 18px",
-              border: "1px solid #000000",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#000000",
-              }}
-            >
-              GitHubを見る
-            </span>
-          </button>
-        </div>
       </section>
 
-      {/* Evidence Section */}
       <section
         style={{
-          padding: "44px 64px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "36px",
-          backgroundColor: "var(--color-bg)",
+          ...sectionStyle,
+          backgroundColor: "#FFFFFF",
+          display: "grid",
+          gap: "28px",
         }}
       >
-        {/* Section intro */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              fontWeight: "500",
-              color: "var(--color-muted)",
-              letterSpacing: "1.6px",
-            }}
-          >
-            PROFF PROFILE / ENGINEER
-          </span>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "20px",
-              fontWeight: "500",
-              color: "#000000",
-              margin: 0,
-            }}
-          >
-            実績・職歴サマリー
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="READING OF THE TIMELINE"
+          title="職務内容から見える、現在の強み"
+          description="長く運用される基盤、データ処理、クラウドネイティブな実行環境を任されてきた経歴が中心です。"
+        />
 
-        {/* Monumental headline — clipped container */}
         <div
           style={{
-            overflow: "hidden",
-            height: "250px",
-            position: "relative",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: "16px",
           }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(40px, 4.2vw, 60px)",
-              fontWeight: "700",
-              lineHeight: "0.86",
-              color: "#000000",
-              margin: 0,
-              position: "absolute",
-              left: "-36px",
-              top: "22px",
-            }}
-          >
-            採用判断に必要な実績を
-            <br />
-            先に読む。
-          </h2>
-        </div>
-
-        {/* Summary line */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: "24px",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "18px",
-              fontWeight: "500",
-              color: "#000000",
-              lineHeight: "1.45",
-              maxWidth: "760px",
-              margin: 0,
-            }}
-          >
-            クラウドネイティブ開発・組織横断改善・高難度移行を軸に、事業成果へ直結するエンジニアリングを推進。
-          </p>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              fontWeight: "400",
-              color: "var(--color-muted)",
-              letterSpacing: "1.2px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            8+ YEARS / B2B SaaS / PLATFORM
-          </span>
-        </div>
-
-        {/* Two-column evidence */}
-        <div style={{ display: "flex", gap: "56px" }}>
-          {/* Major Achievements */}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                fontWeight: "400",
-                color: "var(--color-muted)",
-                letterSpacing: "1.4px",
-              }}
-            >
-              主要実績
-            </span>
-            {achievements.map((item) => (
-              <div
-                key={item.number}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "var(--color-muted)",
-                    letterSpacing: "1.2px",
-                  }}
-                >
-                  {item.number}
-                </span>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "clamp(24px, 2.5vw, 36px)",
-                    fontWeight: "700",
-                    lineHeight: "0.96",
-                    color: "#000000",
-                    margin: 0,
-                  }}
-                >
-                  {item.headline}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "15px",
-                    fontWeight: "400",
-                    color: "#000000",
-                    lineHeight: "1.5",
-                    margin: 0,
-                  }}
-                >
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Representative Projects */}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "12px",
-                fontWeight: "400",
-                color: "var(--color-muted)",
-                letterSpacing: "1.4px",
-              }}
-            >
-              代表プロジェクト要約
-            </span>
-            {representativeProjects.map((project) => (
-              <div
-                key={project.title}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                  padding: "14px 0",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "var(--color-muted)",
-                    letterSpacing: "1.1px",
-                  }}
-                >
-                  {project.period}
-                </span>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "clamp(22px, 2.2vw, 32px)",
-                    fontWeight: "700",
-                    lineHeight: "0.98",
-                    color: "#000000",
-                    margin: 0,
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "15px",
-                    fontWeight: "400",
-                    color: "#000000",
-                    lineHeight: "1.5",
-                    margin: 0,
-                  }}
-                >
-                  {project.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Evidence label */}
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "13px",
-            fontWeight: "400",
-            color: "var(--color-muted)",
-            letterSpacing: "1.3px",
-          }}
-        >
-          EVIDENCE
-        </span>
-
-        {/* Large EVIDENCE heading */}
-        <h2
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(40px, 4.7vw, 68px)",
-            fontWeight: "400",
-            lineHeight: "0.92",
-            color: "#000000",
-            margin: 0,
-          }}
-        >
-          採用判断に必要な実績を
-          <br />
-          先に読む。
-        </h2>
-
-        {/* Stats cards */}
-        <div style={{ display: "flex", gap: "20px" }}>
-          {statsCards.map((card) => (
-            <div
+          {capabilityCards.map((card) => (
+            <article
               key={card.label}
               style={{
-                flex: 1,
-                backgroundColor: "#FFFFFF",
                 border: "1px solid var(--color-border)",
-                padding: "16px",
+                backgroundColor: "var(--color-bg)",
+                padding: "22px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "10px",
+                gap: "12px",
               }}
             >
-              <span
+              <span style={eyebrowStyle}>{card.label}</span>
+              <h2
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "12px",
-                  fontWeight: "400",
-                  color: "var(--color-muted)",
+                  fontSize: "22px",
+                  lineHeight: "1.35",
+                  margin: 0,
                 }}
               >
-                {card.label}
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "24px",
-                  fontWeight: "600",
-                  color: "#000000",
-                }}
-              >
-                {card.value}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Project list */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <h3
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "24px",
-              fontWeight: "600",
-              color: "#000000",
-              margin: 0,
-            }}
-          >
-            代表プロジェクト
-          </h3>
-          {projectRows.map((project) => (
-            <div
-              key={project.title}
-              style={{
-                backgroundColor: "#FFFFFF",
-                border: "1px solid var(--color-border)",
-                padding: "14px",
-                display: "flex",
-                gap: "14px",
-                alignItems: "flex-start",
-              }}
-            >
-              <div style={{ width: "180px", flexShrink: 0 }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "12px",
-                    fontWeight: "400",
-                    color: "var(--color-muted)",
-                  }}
-                >
-                  {project.period}
-                </span>
-              </div>
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "20px",
-                    fontWeight: "600",
-                    color: "#000000",
-                  }}
-                >
-                  {project.title}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "15px",
-                    fontWeight: "400",
-                    color: "var(--color-muted)",
-                    lineHeight: "1.4",
-                  }}
-                >
-                  {project.description}
-                </span>
-              </div>
-            </div>
+                {card.title}
+              </h2>
+              <p style={{ ...mutedTextStyle, fontSize: "14px" }}>
+                {card.description}
+              </p>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* CTA Section */}
       <section
         style={{
-          backgroundColor: "#000000",
-          padding: "48px 64px 56px 64px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
+          ...sectionStyle,
+          display: "grid",
+          gap: "30px",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "13px",
-              fontWeight: "400",
-              color: "#FFFFFF",
-              letterSpacing: "1.4px",
-            }}
-          >
-            NEXT ACTION
+        <SectionHeading
+          eyebrow="REPRESENTATIVE WORK"
+          title="直近の代表案件"
+          description="トップページでは、最新かつ現在の専門性を示す案件を優先して掲載します。詳細ページへ進むと、技術構成・担当領域・成果の文脈を確認できます。"
+        />
+
+        <div style={{ display: "grid", gap: "14px" }}>
+          {focusProjects.map((project) => (
+            <ProjectFeature key={project.slug} project={project} />
+          ))}
+        </div>
+      </section>
+
+      <section
+        style={{
+          ...sectionStyle,
+          backgroundColor: "#000000",
+          color: "#FFFFFF",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+          gap: "clamp(28px, 6vw, 72px)",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <span style={{ ...eyebrowStyle, color: "#B8B9B6" }}>
+            CAREER TIMELINE
           </span>
           <h2
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(40px, 5.4vw, 78px)",
+              fontSize: "clamp(34px, 5vw, 68px)",
               fontWeight: "400",
-              lineHeight: "0.9",
-              color: "#FFFFFF",
+              lineHeight: "0.95",
               margin: 0,
             }}
           >
-            詳細な職務経歴と成果を
-            <br />
-            すぐ確認できます。
+            最新案件から順に、担当の深さを読む
           </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "18px",
-              fontWeight: "400",
-              color: "#F2F3F0",
-              lineHeight: "1.45",
-              maxWidth: "820px",
-              margin: 0,
-            }}
-          >
-            このリニューアル案では、プロフィールを"一覧"ではなく"意思決定用サマリー"として再設計しています。実案件の技術深度はPDF版で確認可能です。
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: "16px" }}>
-          <button
-            type="button"
-            style={{
-              backgroundColor: "#FCFAF7",
-              padding: "12px 18px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#000000",
-              }}
-            >
-              職務経歴書PDF
-            </span>
-          </button>
           <Link
             href="/career"
             style={{
-              display: "inline-block",
-              padding: "12px 18px",
+              color: "#FFFFFF",
               border: "1px solid #FCFAF7",
+              padding: "12px 16px",
               textDecoration: "none",
+              fontWeight: "700",
+              width: "fit-content",
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#FFFFFF",
-              }}
-            >
-              Contact / Interview
-            </span>
+            全20件の職務経歴へ
           </Link>
+        </div>
+
+        <div style={{ display: "grid", gap: "12px" }}>
+          {latestProjects.map((project) => (
+            <TimelinePreview key={project.slug} project={project} />
+          ))}
         </div>
       </section>
     </main>
+  );
+}
+
+function SectionHeading({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div style={{ display: "grid", gap: "12px", maxWidth: "920px" }}>
+      <span style={eyebrowStyle}>{eyebrow}</span>
+      <h2
+        style={{
+          fontSize: "clamp(28px, 4vw, 46px)",
+          lineHeight: "1.18",
+          margin: 0,
+        }}
+      >
+        {title}
+      </h2>
+      <p style={{ ...mutedTextStyle, fontSize: "16px" }}>{description}</p>
+    </div>
+  );
+}
+
+function ProjectFeature({
+  project,
+}: {
+  project: ProjectDetail & { slug: string };
+}) {
+  return (
+    <article
+      style={{
+        backgroundColor: "#FFFFFF",
+        border: "1px solid var(--color-border)",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
+        gap: "18px",
+        padding: "20px",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <span style={eyebrowStyle}>{project.period}</span>
+        <Link
+          href={`/career/${project.slug}`}
+          style={{
+            color: "#000000",
+            fontFamily: "var(--font-mono)",
+            fontSize: "12px",
+            letterSpacing: "0.8px",
+            textDecoration: "none",
+          }}
+        >
+          DETAIL →
+        </Link>
+      </div>
+      <div style={{ display: "grid", gap: "12px" }}>
+        <h3
+          style={{
+            fontSize: "clamp(22px, 3vw, 34px)",
+            lineHeight: "1.16",
+            margin: 0,
+            whiteSpace: "pre-line",
+          }}
+        >
+          {project.title}
+        </h3>
+        <p style={{ ...mutedTextStyle, fontSize: "15px" }}>
+          {project.description}
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {project.tags.slice(0, 4).map((tag) => (
+            <span
+              key={tag}
+              style={{
+                border: "1px solid var(--color-border)",
+                borderRadius: "999px",
+                color: "#000000",
+                fontSize: "12px",
+                padding: "6px 10px",
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function TimelinePreview({ project }: { project: TimelineItem }) {
+  return (
+    <Link
+      href={`/career/${project.slug}`}
+      style={{
+        border: "1px solid #2E2E2E",
+        color: "#FFFFFF",
+        display: "grid",
+        gap: "8px",
+        padding: "14px",
+        textDecoration: "none",
+      }}
+    >
+      <span style={{ ...eyebrowStyle, color: "#B8B9B6" }}>
+        {project.period}
+      </span>
+      <strong style={{ fontSize: "17px", lineHeight: "1.35" }}>
+        {project.title}
+      </strong>
+      <span style={{ color: "#D8D9D6", fontSize: "13px", lineHeight: "1.55" }}>
+        {project.role}
+      </span>
+    </Link>
   );
 }

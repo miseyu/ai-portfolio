@@ -1,0 +1,381 @@
+[
+  {
+    "period": "2025.11-",
+    "title": "音声処理・分析システム インフラ基盤整備",
+    "role": "Terraform / Kubernetes を用いたマルチクラウド基盤整備",
+    "description": "AWS、Azure OpenAI Service、Google Cloud を含むインフラ構成を IaC 化し、EKS Auto Mode、GPUノード、Kustomize運用、品質検査基盤まで整備。",
+    "tags": [
+      "AWS",
+      "Azure OpenAI Service",
+      "Google Cloud",
+      "EKS",
+      "Terraform",
+      "Kubernetes",
+      "Kustomize",
+      "KEDA",
+      "Helm"
+    ],
+    "slug": "audio-processing-infra"
+  },
+  {
+    "period": "2025.04-2025.11",
+    "title": "セキュリティログ分析基盤開発",
+    "role": "ログ収集・正規化・分析基盤の設計開発",
+    "description": "OCSF形式を含むセキュリティログの正規化・加工パイプライン、Athena/Glue/dbtを用いた分析基盤、OpenSearchによるSIEM基盤を構築。",
+    "tags": [
+      "AWS",
+      "Security Lake",
+      "Athena",
+      "Glue",
+      "DuckDB",
+      "OpenSearch",
+      "Python",
+      "dbt",
+      "Terraform"
+    ],
+    "slug": "security-log-analytics"
+  },
+  {
+    "period": "2024.01-2025.03",
+    "title": "GISデータ解析エンジン開発",
+    "role": "Rustによる大容量3Dデータ処理エンジン開発",
+    "description": "tokio / rayon を組み合わせた高スループット処理、ストリーミング処理、空間インデックス、Wasmプラグイン機構を実装。",
+    "tags": ["Rust", "tokio", "rayon", "Wasm", "GCP", "Cloud Batch", "Cesium"],
+    "slug": "gis-data-engine"
+  },
+  {
+    "period": "2023.09-2023.12",
+    "title": "ライブ配信基盤構築",
+    "role": "Rust API と AWS/k8s による配信基盤構築",
+    "description": "Sora SFU向け認証基盤、配信レコーダー、Prometheus/Lokiによる可観測性、TerraformによるAWS環境構築を担当。",
+    "tags": [
+      "AWS",
+      "Kubernetes",
+      "Rust",
+      "Actix Web",
+      "DynamoDB",
+      "Sora SFU",
+      "Terraform",
+      "Prometheus",
+      "Loki"
+    ],
+    "slug": "live-streaming-platform"
+  },
+  {
+    "period": "2021.11-2023.08",
+    "title": "データトラスト基盤構築",
+    "role": "Kubernetes中心のデータ基盤インフラ設計・運用",
+    "description": "クラウドからベアメタルへの移行可能性を見据え、Kubernetes上にストレージとアプリケーションを統合。Kafka/Postgres Operator、監視基盤を整備。",
+    "tags": [
+      "AWS",
+      "Kubernetes",
+      "Go",
+      "Helm",
+      "Helmfile",
+      "Terraform",
+      "Kafka",
+      "Postgres",
+      "IPFS",
+      "Prometheus",
+      "Loki"
+    ],
+    "slug": "data-trust-platform"
+  },
+  {
+    "period": "2020.01-2025.03",
+    "title": "動画広告アドネットワークSRE業務",
+    "role": "Kubernetes基盤のSRE・運用改善",
+    "description": "GCP/k8s環境でHelmからKustomizeへの移行、TerraformによるIaC適用範囲拡大、Istio導入による可観測性とセキュリティ強化を推進。",
+    "tags": [
+      "GCP",
+      "Kubernetes",
+      "Go",
+      "Terraform",
+      "Datadog",
+      "Stackdriver",
+      "Istio",
+      "Helm",
+      "Kustomize",
+      "TiDB",
+      "Aerospike",
+      "Redis"
+    ],
+    "slug": "video-ad-network-sre"
+  },
+  {
+    "period": "2020.01-2020.08",
+    "title": "テレビCM動画解析",
+    "role": "音声・映像解析パイプライン開発",
+    "description": "テレビCM動画から音声、映像、テキスト特徴を抽出し、メタ情報生成とCM識別分類器を構築。ECS Fargate上で実行基盤を整備。",
+    "tags": [
+      "AWS",
+      "ECS Fargate",
+      "Python",
+      "Poetry",
+      "ffmpeg",
+      "OpenCV",
+      "numpy",
+      "GiNZA",
+      "word2vec",
+      "doc2vec"
+    ],
+    "slug": "tv-commercial-analysis"
+  },
+  {
+    "period": "2019.08-2019.12",
+    "title": "ブロックチェーンを用いた電力取引システム",
+    "role": "スマートコントラクトからWebアプリまでのフルスタック開発",
+    "description": "ERC20トークンと電力取引スマートコントラクトをSolidityで実装し、NestJS/Vue.js、DynamoDB、Aurora Serverlessを用いたアプリ基盤を構築。",
+    "tags": [
+      "AWS",
+      "Ethereum",
+      "TypeScript",
+      "Solidity",
+      "NestJS",
+      "OpenZeppelin",
+      "Truffle",
+      "Ganache",
+      "Vue.js",
+      "DynamoDB",
+      "Aurora Serverless"
+    ],
+    "slug": "blockchain-power-trading"
+  },
+  {
+    "period": "2019.01-2019.07",
+    "title": "自律移動ロボットシステム",
+    "role": "Go/gRPCマイクロサービス開発",
+    "description": "ロボットのエレベータ連携サービスをGo + gRPCで設計・実装。Envoy / AWS X-Rayサイドカー、TerraformによるAWS実行基盤を整備。",
+    "tags": [
+      "AWS",
+      "Go",
+      "gRPC",
+      "gqlgen",
+      "Terraform",
+      "Envoy",
+      "AWS X-Ray",
+      "DynamoDB"
+    ],
+    "slug": "autonomous-robot-system"
+  },
+  {
+    "period": "2018.08-2018.12",
+    "title": "AIセルフレジシステム開発",
+    "role": "GraphQL注文管理API開発",
+    "description": "通常UIと音声UIから利用される注文管理APIをGraphQLで設計・実装し、AWS ECS Fargate上で運用できる構成を整備。",
+    "tags": [
+      "AWS",
+      "ECS Fargate",
+      "Python",
+      "GraphQL",
+      "graphene",
+      "Terraform",
+      "gunicorn",
+      "Postgres"
+    ],
+    "slug": "ai-self-checkout"
+  },
+  {
+    "period": "2017.04-2018.07",
+    "title": "広告運用向けデータプラットフォーム構築",
+    "role": "AWSデータレイク・ETL基盤の開発責任者",
+    "description": "データ収集、バッチ/ETL、分析基盤までをAWS上で設計・実装。サーバレス中心の構成とPythonベースの分析開発フローを整備。",
+    "tags": [
+      "AWS",
+      "Python",
+      "Go",
+      "Terraform",
+      "JavaScript",
+      "Apache Spark",
+      "Digdag",
+      "AWS Glue",
+      "Athena",
+      "Embulk",
+      "Flask",
+      "Vue.js",
+      "Postgres"
+    ],
+    "slug": "ad-operations-data-platform"
+  },
+  {
+    "period": "2015.08-2017.03",
+    "title": "TV放送局向けデータ分析基盤・プライベートDMP構築",
+    "role": "技術責任者・事業責任者",
+    "description": "HAROiD DMPとデータ分析基盤を担当し、技術選定、アーキテクチャ設計、プロダクト仕様、ビジネスモデル構築に関与。",
+    "tags": [
+      "GCP",
+      "Ruby",
+      "Python",
+      "TypeScript",
+      "Apache Spark",
+      "Luigi",
+      "Kubernetes",
+      "Docker",
+      "Rails",
+      "Grape",
+      "AngularJS",
+      "BigQuery",
+      "Redis",
+      "Pub/Sub",
+      "MySQL"
+    ],
+    "slug": "broadcast-dmp-platform"
+  },
+  {
+    "period": "2013.04-2015.07",
+    "title": "wizpraプラットフォーム開発・保守",
+    "role": "CTOとして企画・設計・開発・運用を統括",
+    "description": "API/バックエンド、クライアント、インフラ構築、自動化、運用を少人数体制で主導。JenkinsとAnsibleによるCI/CD・環境構築も整備。",
+    "tags": [
+      "AWS",
+      "Ruby",
+      "Rails",
+      "Grape",
+      "AngularJS",
+      "Jenkins",
+      "Ansible",
+      "MySQL",
+      "Redis",
+      "Memcached",
+      "Objective-C",
+      "Java",
+      "Python"
+    ],
+    "slug": "wizpra-platform"
+  },
+  {
+    "period": "2013.01-2013.12",
+    "title": "DSPプラットフォーム開発・保守",
+    "role": "広告入稿API・管理画面UI開発",
+    "description": "広告配信システムの入稿システムを担当し、API経由にロジックを集約。CoffeescriptとSassを導入した管理画面UIを構築。",
+    "tags": [
+      "AWS",
+      "Perl",
+      "JavaScript",
+      "CoffeeScript",
+      "Sass",
+      "Amon2",
+      "nginx",
+      "Starman",
+      "MySQL",
+      "TokyoTyrant",
+      "Memcached"
+    ],
+    "slug": "dsp-platform"
+  },
+  {
+    "period": "2012.07-2012.12",
+    "title": "ソーシャルカードバトルゲーム開発",
+    "role": "iOSゲームのサーバサイド・インフラリーダー",
+    "description": "AWSインフラ、サーバサイド、集計基盤、ランキングサーバー、DBチューニングを担当。EMR、Fluentd、S3、MongoDB、DynamoDBを活用。",
+    "tags": [
+      "AWS",
+      "Java",
+      "Ruby",
+      "Groovy",
+      "Objective-C",
+      "Seasar",
+      "Rails",
+      "Amazon EMR",
+      "Fluentd",
+      "S3",
+      "DynamoDB",
+      "MySQL",
+      "Redis"
+    ],
+    "slug": "social-card-battle-game"
+  },
+  {
+    "period": "2012.03-2012.06",
+    "title": "ソーシャルパズルゲーム開発",
+    "role": "iOSゲームのサーバサイド・インフラリーダー",
+    "description": "AWS上でインフラ設計、フレームワーク選定・設計、サーバサイド実装を担当。Scala/Playを採用し、保守しやすい実装方針を整備。",
+    "tags": [
+      "AWS",
+      "Scala",
+      "Objective-C",
+      "Play Framework",
+      "nginx",
+      "MySQL",
+      "MongoDB",
+      "Memcached"
+    ],
+    "slug": "social-puzzle-game"
+  },
+  {
+    "period": "2011.06-2012.02",
+    "title": "ソーシャル街づくりゲーム開発",
+    "role": "Facebookアプリのサーバサイド・Flash開発",
+    "description": "AWS上でサーバサイド設計・実装、Flash実装、フレームワーク選定、アプリケーションサーバーとDBのチューニングを担当。",
+    "tags": [
+      "AWS",
+      "Java",
+      "ActionScript",
+      "Spring",
+      "nginx",
+      "Tomcat",
+      "MySQL",
+      "MongoDB",
+      "Memcached"
+    ],
+    "slug": "social-town-game"
+  },
+  {
+    "period": "2009.04-2011.05",
+    "title": "プリクラ連動画像サービス",
+    "role": "フィーチャーフォン向け画像サービス開発",
+    "description": "500万人規模の会員を考慮したサーバー・DBチューニング、画像保存の負荷分散、MogileFS導入を担当。",
+    "tags": [
+      "Linux",
+      "Java",
+      "Ruby",
+      "Groovy",
+      "Seasar",
+      "Rails",
+      "Tomcat",
+      "Passenger",
+      "Oracle",
+      "MySQL",
+      "MogileFS"
+    ],
+    "slug": "photo-booth-image-service"
+  },
+  {
+    "period": "2011.01-2011.05",
+    "title": "Androidアプリ開発（メーラー）",
+    "role": "Androidアプリ・サーバサイド開発",
+    "description": "au課金連携を含むサーバサイド設計・実装、Androidアプリ設計・実装、アプリケーションサーバーとDBのチューニングを担当。",
+    "tags": [
+      "Linux",
+      "Android",
+      "Java",
+      "Ruby",
+      "Groovy",
+      "Seasar",
+      "Rails",
+      "Tomcat",
+      "Passenger",
+      "Oracle"
+    ],
+    "slug": "android-mailer-app"
+  },
+  {
+    "period": "2010.06-2010.09",
+    "title": "ソーシャル乙女ゲーム開発",
+    "role": "フィーチャーフォン向けゲームのサーバサイド開発",
+    "description": "GREE向けソーシャルゲームとして、インフラ構築、サーバサイド設計・実装、アプリケーションサーバーとDBのチューニングを担当。",
+    "tags": [
+      "Linux",
+      "Java",
+      "Ruby",
+      "Groovy",
+      "Seasar",
+      "Rails",
+      "Tomcat",
+      "Passenger",
+      "Oracle",
+      "GREE"
+    ],
+    "slug": "social-otome-game"
+  }
+]
