@@ -258,50 +258,6 @@ export default async function ProjectDetailPage({
           {project.contextText}
         </p>
 
-        {/* CTA buttons */}
-        <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
-          <button
-            type="button"
-            style={{
-              backgroundColor: "#FCFAF7",
-              border: "none",
-              padding: "12px 18px",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#000000",
-              }}
-            >
-              この案件の詳細を面談で聞く
-            </span>
-          </button>
-          <button
-            type="button"
-            style={{
-              backgroundColor: "transparent",
-              border: "1px solid #FCFAF7",
-              padding: "12px 18px",
-              cursor: "pointer",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "15px",
-                fontWeight: "600",
-                color: "#FFFFFF",
-              }}
-            >
-              関連アーキテクチャ資料
-            </span>
-          </button>
-        </div>
-
         {/* Back link */}
         <Link
           href="/career"
